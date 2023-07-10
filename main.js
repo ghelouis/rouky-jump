@@ -1,4 +1,4 @@
-import kaboom from "./lib/kaboom.mjs";
+import kaboom from "https://unpkg.com/kaboom@3000.0.1/dist/kaboom.mjs";
 
 const FLOOR_HEIGHT = 48;
 const JUMP_FORCE = 800;
