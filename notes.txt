@@ -1,5 +1,0 @@
-index.html & main.js formatted with prettier
-  prettier not added to proj, adds package.json and other clutter... + need to say what files NOT to format...
-  maybe install it globally and run it manually?
-
-cool 8 bit theme: https://freesound.org/people/Mrthenoronha/sounds/520937/
