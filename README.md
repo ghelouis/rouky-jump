@@ -1,6 +1,6 @@
 # Rouky Jump
 
-A [Chrome Dino](https://en.wikipedia.org/wiki/Dinosaur_Game) inspired game, built using the amazing [kaboomjs](https://kaboomjs.com) library.
+A [Chrome Dino](https://en.wikipedia.org/wiki/Dinosaur_Game) inspired game, built using the amazing [Kaboom](https://kaboomjs.com) JS library.
 
 Play it here: https://ghelouis.fr/rouky-jump
 
