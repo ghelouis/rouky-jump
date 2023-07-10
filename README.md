@@ -8,4 +8,4 @@ Play it here: https://ghelouis.fr/rouky-jump
 
 To run the game locally start a local server in the main directory. For instance:
 - Type `python -m http.server` in a terminal
-- Go to localhost:8000 in your favorite browser
+- Go to [localhost:8000](localhost:8000) in your favorite browser
