@@ -100,9 +100,6 @@ scene("game", ({ highScore }) => {
   // define gravity
   setGravity(GRAVITY);
 
-  // add player object to screen
-  const player = add([sprite("rouky"), pos(80, 40), area(), body(), "player"]);
-
   function addFloor() {
     return add([
       rect(width(), FLOOR_HEIGHT),
@@ -117,6 +114,10 @@ scene("game", ({ highScore }) => {
 
   // add floor
   let floor = addFloor();
+
+  // add player
+  const player = add([sprite("rouky"), pos(80, 40), area(), body(), "player"]);
+
 
   function jump() {
     if (isGameOver) {
