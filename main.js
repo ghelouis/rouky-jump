@@ -30,9 +30,9 @@ volume(0.2);
 
 // welcome screen
 scene("welcome", () => {
-  // background
-  add([
-    rect(width(), height() - 300),
+  // background tile
+  const backgroundTile = add([
+    rect(width(), 150),
     pos(width() / 2, height() / 2),
     color(30, 30, 30),
     anchor("center"),
@@ -41,7 +41,7 @@ scene("welcome", () => {
   // rotating rouky
   const rouky = add([
     sprite("rouky_casquette"),
-    pos(width() / 2, height() - 225),
+    pos(width() / 2, height() / 2 -  height() / 100 * 25),
     rotate(360),
     anchor("center"),
   ]);
@@ -61,14 +61,15 @@ scene("welcome", () => {
         }),
       },
     }),
-    pos(width() / 2, height() / 2 - 150),
+    pos(width() / 2, height() / 2),
     scale(2),
     anchor("center"),
   ]);
   add([
     text("Appuyer sur espace pour commencer"),
-    pos(width() / 2, height() / 2 - 80),
+    pos(width() / 2, height() / 2 + backgroundTile.height),
     anchor("center"),
+    scale(0.7)
   ]);
 
   // version
