@@ -262,8 +262,8 @@ scene("game", ({ highScore }) => {
       body({ isStatic: true }),
       color(144, 238, 144),
     ]);
-    scoreLabel.pos.y = height() - 80;
-    highScoreLabel.pos.y = height() - 34;
+    scoreLabel.pos.y = height() - height() / 100 * 2 - highScoreLabel.height / 2 - 10;
+    highScoreLabel.pos.y = height() - height() / 100 * 2 - 10;
     isUpsideDown = true;
     wait(rand(8, 15), () => {
       play("upside_down_off");
@@ -273,8 +273,8 @@ scene("game", ({ highScore }) => {
       destroyAll("tree");
       destroy(upsideDownFloor);
       setGravity(GRAVITY);
-      scoreLabel.pos.y = 120;
-      highScoreLabel.pos.y = 24;
+      scoreLabel.pos.y = height() / 100 * 2 + highScoreLabel.height / 2;
+      highScoreLabel.pos.y = height() / 100 * 2;
       isUpsideDown = false;
       usePostEffect("");
       floor = addFloor();
@@ -313,13 +313,12 @@ scene("game", ({ highScore }) => {
   // display score & high score
   let highScoreLabel = add([
     text("Meilleur score : " + highScore),
-    pos(24, 24),
+    pos(width() / 100, height() / 100 * 2),
+    scale(0.5)
   ]);
   let scoreLabel = add([
     text(score),
-    scale(2),
-    pos(150, 120),
-    anchor("center"),
+    pos(width() / 100, height() / 100 * 2 + highScoreLabel.height / 2),
   ]);
 
   // every frame: increment score, check if best score was beaten, manage speed and darkness
@@ -329,7 +328,10 @@ scene("game", ({ highScore }) => {
       scoreLabel.text = score;
       if (highScore !== 0 && score === highScore + 1) {
         play("new_high_score");
-        addKaboom(scoreLabel.pos);
+        addKaboom(vec2(
+          scoreLabel.pos.x + scoreLabel.width / 2,
+          scoreLabel.pos.y + scoreLabel.height / 2,
+        ));
       }
     }
     if (score % 1000 === 0) {
