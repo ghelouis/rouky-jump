@@ -4,6 +4,12 @@ const FLOOR_HEIGHT = 48;
 const JUMP_FORCE = 800;
 const GRAVITY = 1800;
 
+// i18n
+const frLang = navigator.language.startsWith("fr")
+const pressSpaceToStartText = frLang ? "Appuyer sur espace pour commencer" : "Press space to start";
+const nightIsFallingText = frLang ? "La nuit tombe..." : "Night is falling...";
+const hightScoreText = frLang ? "Meilleur score : " : "High score : ";
+
 // initialize context
 kaboom({
   background: [51, 151, 255],
@@ -66,7 +72,7 @@ scene("welcome", () => {
     anchor("center"),
   ]);
   add([
-    text("Appuyer sur espace pour commencer"),
+    text(pressSpaceToStartText),
     pos(width() / 2, height() / 2 + backgroundTile.height),
     anchor("center"),
     scale(0.7)
@@ -291,7 +297,7 @@ scene("game", ({ highScore }) => {
       rand(0, 1) > 0.6
     ) {
       const label = add([
-        text("La nuit tombe..."),
+        text(nightIsFallingText),
         pos(width() / 2, height() / 2),
         scale(2),
         anchor("center"),
@@ -312,7 +318,7 @@ scene("game", ({ highScore }) => {
 
   // display score & high score
   let highScoreLabel = add([
-    text("Meilleur score : " + highScore),
+    text(hightScoreText+ highScore),
     pos(width() / 100, height() / 100 * 2),
     scale(0.5)
   ]);
