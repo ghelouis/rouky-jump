@@ -71,6 +71,15 @@ scene("welcome", () => {
     anchor("center"),
   ]);
 
+  // version
+  add([
+    text("v0.0.2"),
+    pos(width(), height()),
+    anchor("botright"),
+    scale(0.5)
+  ]);
+
+
   // press space (or click or tap on phone) to begin the game
   onKeyPress("space", () => {
     go("game", { highScore: 0 });
