@@ -80,7 +80,7 @@ scene("welcome", () => {
 
   // version
   add([
-    text("v0.0.2"),
+    text("v0.0.1"),
     pos(width(), height()),
     anchor("botright"),
     scale(0.5)
