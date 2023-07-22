@@ -25,7 +25,6 @@ loadSound("jump", "sounds/jump.wav"); // https://freesound.org/people/LittleRobo
 loadSound("crunch", "sounds/crunch.mp3"); // https://freesound.org/people/Borgory/sounds/548367/
 loadSound("new_high_score", "sounds/new_high_score.wav"); // https://freesound.org/people/rhodesmas/sounds/320655/
 loadSound("light_off", "sounds/light_off.wav"); // https://freesound.org/people/mtndewfan123/sounds/687451/
-loadSound("multi_jump_off", "sounds/multi_jump_off.wav"); // https://freesound.org/people/boonryan/sounds/91091/
 loadSound("upside_down", "sounds/upside_down.wav"); // https://freesound.org/people/Greenhourglass/sounds/159376/
 loadSound("upside_down_off", "sounds/upside_down_off.wav"); // https://freesound.org/people/dossantosbarbosa/sounds/221145/
 loadShaderURL("invert", null, "shaders/invert.frag");
@@ -101,7 +100,6 @@ scene("game", ({ highScore }) => {
   let speed = 480;
   let isDark = false;
   let isUpsideDown = false;
-  let multiJumpEnabled = false;
   let score = 0;
 
   // define gravity
@@ -130,13 +128,12 @@ scene("game", ({ highScore }) => {
     if (isGameOver) {
       // start a new game
       go("game", { highScore: highScore });
-    } else if (
-      isUpsideDown &&
-      (multiJumpEnabled || (!player.isFalling() && !player.isJumping()))
+    } else if (isUpsideDown &&
+      (!player.isFalling() && !player.isJumping())
     ) {
       player.jump(-JUMP_FORCE);
       play("jump");
-    } else if (player.isGrounded() || multiJumpEnabled) {
+    } else if (player.isGrounded()) {
       player.jump(JUMP_FORCE);
       play("jump");
     }
@@ -147,7 +144,7 @@ scene("game", ({ highScore }) => {
   onClick(() => jump());
 
   function spawnItem() {
-    // stop spawing items if the game is over
+    // stop spawning items if the game is over
     if (isGameOver) {
       return;
     }
@@ -234,15 +231,10 @@ scene("game", ({ highScore }) => {
     }
   });
 
-  // if player collides with food, enable multi jump for a short while
+  // if player collides with food, play crunch sound
   player.onCollide("food", (food) => {
     play("crunch");
     destroy(food);
-    multiJumpEnabled = true;
-    wait(7, () => {
-      play("multi_jump_off");
-      multiJumpEnabled = false;
-    });
   });
 
   // if player collides with a bolt, switch on upside down mode for a bit
