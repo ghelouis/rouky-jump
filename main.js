@@ -20,6 +20,7 @@ loadSprite("rouky_casquette", "sprites/rouky_casquette.png");
 loadSprite("rouky", "sprites/rouky.png");
 loadSprite("food", "sprites/food.png");
 loadSprite("bolt", "sprites/bolt.png");
+loadSprite("kong", "sprites/kong.png");
 loadSound("explosion", "sounds/explosion.wav"); // https://freesound.org/people/LittleRobotSoundFactory/sounds/270310/
 loadSound("jump", "sounds/jump.wav"); // https://freesound.org/people/LittleRobotSoundFactory/sounds/270323/
 loadSound("crunch", "sounds/crunch.mp3"); // https://freesound.org/people/Borgory/sounds/548367/
@@ -27,6 +28,7 @@ loadSound("new_high_score", "sounds/new_high_score.wav"); // https://freesound.o
 loadSound("light_off", "sounds/light_off.wav"); // https://freesound.org/people/mtndewfan123/sounds/687451/
 loadSound("upside_down", "sounds/upside_down.wav"); // https://freesound.org/people/Greenhourglass/sounds/159376/
 loadSound("upside_down_off", "sounds/upside_down_off.wav"); // https://freesound.org/people/dossantosbarbosa/sounds/221145/
+loadSound("blip", "sounds/blip.wav"); // https://freesound.org/people/oneloginacc/sounds/73444/
 loadShaderURL("invert", null, "shaders/invert.frag");
 loadShaderURL("light", null, "shaders/light.frag");
 
@@ -184,6 +186,17 @@ scene("game", ({ highScore }) => {
         offscreen({ destroy: true }),
         "food",
       ]);
+    } else if (r > 0.87) {
+      // add kong (somewhat frequent)
+      add([
+        sprite("kong"),
+        pos(width(), getItemHeight()),
+        area(),
+        itemAnchor,
+        move(LEFT, speed),
+        offscreen({ destroy: true }),
+        "kong",
+      ]);
     } else {
       // add tree (default, almost always)
       add([
@@ -237,6 +250,16 @@ scene("game", ({ highScore }) => {
     destroy(food);
   });
 
+  // if player collides with kong clear trees
+  player.onCollide("kong", (kong) => {
+    play("blip");
+    get("tree").forEach((tree) => {
+      addKaboom(vec2(tree.pos.x + tree.width / 2, tree.pos.y - tree.height / 2));
+      destroy(tree);
+    });
+    destroy(kong);
+  });
+
   // if player collides with a bolt, switch on upside down mode for a bit
   player.onCollide("bolt", (bolt) => {
     destroy(bolt);
@@ -245,6 +268,7 @@ scene("game", ({ highScore }) => {
     }
     play("upside_down");
     destroyAll("food");
+    destroyAll("kong");
     destroyAll("bolt");
     destroyAll("tree");
     usePostEffect("invert");
@@ -267,6 +291,7 @@ scene("game", ({ highScore }) => {
       play("upside_down_off");
       player.flipY = false;
       destroyAll("food");
+      destroyAll("kong");
       destroyAll("bolt");
       destroyAll("tree");
       destroy(upsideDownFloor);
