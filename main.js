@@ -156,15 +156,18 @@ scene("game", ({ highScore }) => {
     if (isUpsideDown) {
       itemAnchor = "topleft";
     }
-    function getItemHeight(n = 0) {
+
+    function getItemHeight(offset = 0) {
       if (isUpsideDown) {
-        return FLOOR_HEIGHT + n;
+        return FLOOR_HEIGHT + offset;
       } else {
-        return height() - FLOOR_HEIGHT - n;
+        return height() - FLOOR_HEIGHT - offset;
       }
     }
+
     let r = rand(0, 1);
-    if (score > 4000 && r > 0.95 && !isUpsideDown && !isDark) {
+
+    if (score > 4000 && r > 0.95 && !isUpsideDown && !isDark && get("bolt").length === 0) {
       // add bolt (rare)
       add([
         sprite("bolt"),
@@ -175,7 +178,7 @@ scene("game", ({ highScore }) => {
         offscreen({ destroy: true }),
         "bolt",
       ]);
-    } else if (score > 2000 && r > 0.92) {
+    } else if (score > 2000 && r > 0.92 && get("food").length === 0) {
       // add food (semi-frequent)
       add([
         sprite("food"),
@@ -186,10 +189,10 @@ scene("game", ({ highScore }) => {
         offscreen({ destroy: true }),
         "food",
       ]);
-    } else if (r > 0.87) {
+    } else if (r > 0.87 && get("kong").length === 0) {
       // add kong (somewhat frequent)
       add([
-        sprite("kong"),
+        sprite("kong", {flipY: isUpsideDown}),
         pos(width(), getItemHeight()),
         area(),
         itemAnchor,
@@ -254,7 +257,11 @@ scene("game", ({ highScore }) => {
   player.onCollide("kong", (kong) => {
     play("blip");
     get("tree").forEach((tree) => {
-      addKaboom(vec2(tree.pos.x + tree.width / 2, tree.pos.y - tree.height / 2));
+      if (isUpsideDown) {
+        addKaboom(vec2(tree.pos.x + tree.width / 2, tree.pos.y + tree.height / 2));
+      } else {
+        addKaboom(vec2(tree.pos.x + tree.width / 2, tree.pos.y - tree.height / 2));
+      }
       destroy(tree);
     });
     destroy(kong);
